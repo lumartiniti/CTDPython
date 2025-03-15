@@ -3,15 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import datetime
 
-from IPython import display
-from jedi.api.refactoring import inline
-
-from CTD.testectd import depth, oxygen
-from distr_sal_vertical import carrega_ctd
-
 path = r'C:/Users/luima/OneDrive/Documentos/dados_python/ODV_data/csv/'
 
-mydir = os.listdir(path) # Lista os arquivos e diretório do caminho.
+mydir = os.listdir(path)
 
 ctd_file = []
 for file in mydir:
@@ -19,7 +13,7 @@ for file in mydir:
         ctd_file.append(file)
 
 def carrega_ctd(path, ctd_file):
-    with open(path + ctd_file[0]) as file: # abre o arquivo especificado.
+    with open(path + ctd_file[0]) as file: 
         c = 0
 
         depth = []
@@ -91,39 +85,3 @@ for i in range(len(axes)):
 
 ax1.set_ylabel('Depth (m)')
 plt.show()
-
-# Gera imagem 1
-
-def grafico_perfis(depth, salinity, temperature, chlrophyll, turbidity, oxygen_sat, oxygen, n_perfil):
-    fig = plt.figure(figsize=(10, 5))
-
-    px = .1
-    py = .1
-    dx = .15
-    dy = .8
-    intervalo = .02
-
-    ax1 = fig.add_axes([px, py, dx, dy])
-    ax2 = fig.add_axes([px +(dx + intervalo), py, dx, dy])
-    ax3 = fig.add_axes([px +(dx + intervalo)*2, py, dx, dy])
-    ax4 = fig.add_axes([px +(dx + intervalo)*3, py, dx, dy])
-    ax5 = fig.add_axes([px +(dx + intervalo)*4, py, dx, dy])
-
-    depth_g = -np.array(depth)
-
-    ax1.plot(salinity, depth_g)
-    ax2.plot(temperature, depth_g)
-    ax3.plot(chlorophyll, depth_g)
-    ax4.plot(turbidity, depth_g)
-    ax5.plot(oxygen, depth_g)
-
-    axes = [ax1, ax2, ax3, ax4, ax5]
-    labs = ['Salinity (psu)', 'Temperature (°C)', 'Chlorophyll-a (g/L)', 'Turbidity (FTU)', 'Oxygen (%)']
-
-    for i in range(len(axes)):
-        axes[i].set_xlabel(labs[i])
-        if i > 0:
-            axes[i].set_yticklabels('')
-
-    ax1.set_ylabel('Depth (m)')
-    plt.show()
